@@ -9,5 +9,6 @@ def main():
     print(f"Environment: {config['environment']}")
     print(f"Debug mode: {config['debug']}")
 
+
 if __name__ == "__main__":
-    main()    
+    main()
