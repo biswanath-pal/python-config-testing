@@ -1,5 +1,7 @@
 import pytest
+
 from config import load_config
+
 
 @pytest.mark.parametrize(
         "value, expected",
