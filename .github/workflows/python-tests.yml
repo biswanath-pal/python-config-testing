@@ -1,5 +1,5 @@
 
-name: Python Configuration Tests
+name: Python Quality Checks
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +24,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install ruff bandit coverage
 
-      - name: Run tests
-        run: python -m pytest -v
+      - name: Run Ruff
+        run: python -m ruff check .
+
+      - name: Run Bandit
+        run: python -m bandit -r . -x ./.venv,./.pytest_cache,./tests
+
+      - name: Run tests with coverage
+        run: python -m coverage run --source=config -m pytest -v
+
+      - name: Enforce coverage threshold
+        run: python -m coverage report --fail-under=80
